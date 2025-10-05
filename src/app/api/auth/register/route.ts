@@ -6,6 +6,7 @@ import { createToken } from '@/lib/jwt'
 import { createAuthResponse } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { logActivity } from '@/lib/activity-logger'
+import type { Prisma } from '@prisma/client'
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
     const passwordHash = await hashPassword(password)
 
     // Atomic user/team/member creation
-    const [user, team] = await prisma.$transaction(async tx => {
+    const [user, team] = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const createdUser = await tx.user.create({
         data: {
           email,
