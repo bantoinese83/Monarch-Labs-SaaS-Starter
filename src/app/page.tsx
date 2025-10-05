@@ -1,103 +1,157 @@
-import Image from "next/image";
+import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
-export default function Home() {
+export const revalidate = 3600
+import { ArrowRight, Check, Star } from 'lucide-react'
+
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div>
+      {/* Hero Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4 text-center">
+          <div className="mx-auto max-w-4xl">
+            <h1 className="mb-6 text-5xl grunge-headline md:text-6xl">
+              Raw & Unfiltered
+              <span className="bg-gradient-to-r from-fuchsia-600 to-purple-600 bg-clip-text text-transparent">
+                {' '}
+                SaaS
+              </span>
+            </h1>
+            <p className="mb-8 text-xl text-gray-300 grunge-ink">
+              A complete Next.js starter template with authentication, payments, team management,
+              and everything you need to launch your SaaS product.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/signup"
+                className="flex items-center rounded-lg grunge-border bg-gradient-to-r from-fuchsia-600 to-purple-700 px-8 py-4 text-lg font-semibold text-white hover:from-fuchsia-500 hover:to-purple-600"
+              >
+                Start Building
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+              <Link
+                href="/pricing"
+                className="rounded-lg grunge-border px-8 py-4 text-lg font-semibold text-gray-200 hover:bg-black/30"
+              >
+                View Pricing
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Animated Terminal (dynamically loaded) */}
+      {(() => {
+        const Terminal = dynamic(async () => {
+          return function Terminal() {
+            return (
+              <section className="py-16">
+                <div className="mx-auto max-w-6xl px-4">
+                  <div className="mx-auto max-w-4xl">
+                    <div className="overflow-hidden rounded-lg grunge-paper">
+                      <div className="flex items-center space-x-2 bg-black/50 px-4 py-3">
+                        <div className="h-3 w-3 rounded-full bg-red-500" />
+                        <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                        <div className="h-3 w-3 rounded-full bg-green-500" />
+                        <span className="ml-4 text-sm text-gray-400 grunge-ink">Terminal</span>
+                      </div>
+                      <div className="p-6 font-mono text-sm text-green-400">
+                        <div className="animate-pulse">
+                          <div className="mb-2">$ npx create-next-app my-saas</div>
+                          <div className="mb-2">$ npm install @saas-starter/cli</div>
+                          <div className="mb-2">$ saas-starter init</div>
+                          <div className="text-blue-400">✓ Authentication configured</div>
+                          <div className="text-blue-400">✓ Stripe payments integrated</div>
+                          <div className="text-blue-400">✓ Team management ready</div>
+                          <div className="text-green-400">✓ Ready to deploy!</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )
+          }
+        })
+        return <Terminal />
+      })()}
+
+      {/* Features Section */}
+      <section id="features" className="py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center">
+            <h2 className="mb-4 text-4xl grunge-headline">Everything You Need</h2>
+            <p className="mb-16 text-xl text-gray-300 grunge-ink">
+              Built with modern technologies and best practices
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, index) => (
+              <div key={index} className="rounded-lg grunge-paper p-6 hover:shadow-md">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-fuchsia-900/30 grunge-border">
+                  <feature.icon className="h-6 w-6 text-fuchsia-400" />
+                </div>
+                <h3 className="mb-2 text-xl grunge-headline">{feature.title}</h3>
+                <p className="text-gray-300 grunge-ink">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="rounded-2xl grunge-border bg-gradient-to-r from-fuchsia-600 to-purple-700 px-8 py-16 text-center text-white">
+            <h2 className="mb-4 text-4xl grunge-headline">Ready to Build Your SaaS?</h2>
+            <p className="mb-8 text-xl opacity-90">
+              Get started in minutes with our complete starter template
+            </p>
+            <Link
+              href="/signup"
+              className="inline-flex items-center rounded-lg grunge-border bg-white/95 px-8 py-4 text-lg font-semibold text-purple-700 hover:bg-white"
+            >
+              Start Building Now
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
+
+const features = [
+  {
+    icon: Star,
+    title: 'Authentication',
+    description: 'Secure email/password auth with JWT tokens and role-based access control.',
+  },
+  {
+    icon: Check,
+    title: 'Stripe Integration',
+    description: 'Complete payment processing with subscription management and customer portal.',
+  },
+  {
+    icon: ArrowRight,
+    title: 'Team Management',
+    description: 'Multi-tenant architecture with team-based organization and member management.',
+  },
+  {
+    icon: Star,
+    title: 'Activity Logging',
+    description: 'Comprehensive audit trail for all user actions and system events.',
+  },
+  {
+    icon: Check,
+    title: 'Modern Stack',
+    description:
+      'Next.js 14, TypeScript, Tailwind CSS, and Prisma for the best developer experience.',
+  },
+  {
+    icon: ArrowRight,
+    title: 'Production Ready',
+    description: 'Deployed on Vercel with Supabase database and optimized for performance.',
+  },
+]

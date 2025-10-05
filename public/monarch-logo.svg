@@ -1,0 +1,20 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="36" fill="#0b0b0b"/>
+  <g filter="url(#f0)">
+    <path d="M54 184C70 150 98 122 128 106C158 122 186 150 202 184" stroke="#7c3aed" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#f1)">
+    <path d="M54 72C76 84 102 92 128 92C154 92 180 84 202 72" stroke="#22d3ee" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <circle cx="128" cy="112" r="6" fill="#e6e6e6"/>
+  <defs>
+    <filter id="f0" x="36" y="86" width="184" height="116" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <filter id="f1" x="44" y="62" width="172" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+</svg>
+
+

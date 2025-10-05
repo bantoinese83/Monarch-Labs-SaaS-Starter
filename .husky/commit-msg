@@ -1,0 +1,1 @@
+npx --yes commitlint --edit npx --yes husky init && echo "npx --yes commitlint --edit $1" > .husky/commit-msg && chmod +x .husky/commit-msg

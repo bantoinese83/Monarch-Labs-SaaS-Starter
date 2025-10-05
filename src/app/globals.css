@@ -1,26 +1,95 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0b0b;
+  --foreground: #e6e6e6;
+
+  /* Monarch Labs brand palette */
+  --brand-primary: #7c3aed; /* royal purple */
+  --brand-secondary: #22d3ee; /* cyan accent */
+  --brand-danger: #ef4444;
+
+  /* Grunge theme mapped to brand */
+  --grunge-bg: #0b0b0b;
+  --grunge-fg: #e6e6e6;
+  --grunge-accent: var(--brand-primary);
+  --grunge-accent-2: var(--brand-danger);
+  --grunge-muted: #2a2a2a;
+  --grunge-border: #1a1a1a;
+  --grunge-paper: #111111;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Removed @theme for broader tooling compatibility; use CSS variables directly */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Grunge stays dark-first; optional media tweak removed for consistency */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Ubuntu,
+    Cantarell,
+    Noto Sans,
+    Helvetica,
+    Arial,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
+}
+
+/* Grunge textures and utilities */
+.grunge-bg {
+  background:
+    radial-gradient(1200px 400px at 10% 20%, rgba(255, 255, 255, 0.04), transparent 60%),
+    radial-gradient(800px 300px at 80% 0%, rgba(139, 92, 246, 0.07), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 25%), var(--grunge-bg);
+}
+
+.grunge-paper {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 2px,
+      transparent 4px
+    ),
+    var(--grunge-paper);
+  border: 1px solid var(--grunge-border);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.grunge-border {
+  border: 1px solid var(--grunge-border);
+}
+
+.grunge-ink {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.02em;
+}
+
+.grunge-headline {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grunge-fg);
+  font-family: var(--font-grunge-display), var(--font-geist-sans), system-ui;
+}
+
+.grunge-accent {
+  color: var(--grunge-accent);
+}
+
+.grunge-accent-2 {
+  color: var(--grunge-accent-2);
 }
