@@ -36,7 +36,8 @@ export function middleware(request: NextRequest) {
   const isPublicApiRoute = publicApiRoutes.some(route => pathname.startsWith(route))
 
   // Check for token in cookies first, then in localStorage (via custom header)
-  const token = request.cookies.get('auth-token')?.value || 
+  const token = request.cookies.get('auth_tkk')?.value || 
+                request.cookies.get('auth-token')?.value || 
                 request.cookies.get('auth-token-fallback')?.value ||
                 request.headers.get('x-auth-token')
   const isAuthenticated = !!token

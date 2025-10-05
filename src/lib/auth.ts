@@ -14,7 +14,8 @@ export async function getAuthenticatedUser(
   request: NextRequest,
 ): Promise<AuthenticatedUser | null> {
   try {
-    const token = request.cookies.get('auth-token')?.value
+    const token = request.cookies.get('auth_tkk')?.value || 
+                  request.cookies.get('auth-token')?.value
 
     if (!token) {
       return null
@@ -72,23 +73,27 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
     sameSite: 'lax' as const,
     path: '/',
     maxAge: 60 * 60 * 24 * 7, // 7 days
+    // Don't set domain to avoid Vercel subdomain issues
   }
   
   console.log('Cookie options:', cookieOptions)
+  console.log('Production environment:', isProduction)
+  console.log('Token length:', token.length)
   
-  // Method 1: Manual Set-Cookie header (most reliable)
+  // Method 1: Manual Set-Cookie header with unique cookie name
   try {
     const secureFlag = isProduction ? '; Secure' : ''
-    const cookieString = `auth-token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}${secureFlag}`
+    const cookieString = `auth_tkk=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}${secureFlag}`
     response.headers.set('Set-Cookie', cookieString)
-    console.log('Cookie set via manual Set-Cookie header:', cookieString)
+    console.log('✅ Cookie set via manual Set-Cookie header:', cookieString)
+    console.log('✅ Response headers after cookie set:', Array.from(response.headers.entries()))
   } catch (error) {
-    console.error('Manual Set-Cookie header failed:', error)
+    console.error('❌ Manual Set-Cookie header failed:', error)
   }
 
-  // Method 2: NextResponse.cookies.set() as backup
+  // Method 2: NextResponse.cookies.set() with unique name
   try {
-    response.cookies.set('auth-token', token, cookieOptions)
+    response.cookies.set('auth_tkk', token, cookieOptions)
     console.log('Cookie set via NextResponse.cookies.set()')
   } catch (error) {
     console.error('NextResponse.cookies.set() failed:', error)
@@ -115,12 +120,21 @@ export function createLogoutResponse() {
   const isProduction = process.env.NODE_ENV === 'production'
   const response = NextResponse.json({ message: 'Logged out successfully' }, { status: 200 })
   
-  // Clear the auth cookie with production-optimized settings
+  // Clear the auth cookies with production-optimized settings
   const secureFlag = isProduction ? '; Secure' : ''
-  const cookieString = `auth-token=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secureFlag}`
+  const cookieString = `auth_tkk=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secureFlag}`
   response.headers.set('Set-Cookie', cookieString)
   
   // Also clear via NextResponse.cookies.set()
+  response.cookies.set('auth_tkk', '', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  })
+  
+  // Clear old cookie name for backward compatibility
   response.cookies.set('auth-token', '', {
     httpOnly: true,
     secure: isProduction,
