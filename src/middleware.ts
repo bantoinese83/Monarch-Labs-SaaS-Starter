@@ -37,6 +37,14 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get('auth-token')?.value
   const isAuthenticated = !!token
+  
+  // Debug: Log cookie information
+  if (process.env.NODE_ENV === 'production') {
+    console.log('Middleware - Path:', pathname)
+    console.log('Middleware - Has token:', !!token)
+    console.log('Middleware - Token length:', token?.length || 0)
+    console.log('Middleware - All cookies:', request.cookies.getAll().map(c => c.name))
+  }
 
   // If it's a public route or public API route, allow access
   if (isPublicRoute || isPublicApiRoute) {

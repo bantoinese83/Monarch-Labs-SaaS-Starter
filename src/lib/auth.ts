@@ -53,21 +53,24 @@ export async function getAuthenticatedUser(
 
 export function createAuthResponse(user: AuthenticatedUser, token: string) {
   const isProduction = process.env.NODE_ENV === 'production'
-  const cookieParts = [
+  
+  // Create cookie string with proper formatting
+  const cookieString = [
     `auth-token=${token}`,
     'HttpOnly',
     isProduction ? 'Secure' : undefined,
-    'SameSite=Lax', // Changed from Strict to Lax for better compatibility
+    'SameSite=Lax',
     'Path=/',
     `Max-Age=${60 * 60 * 24 * 7}`,
-    // Don't set domain in production to avoid cookie issues
-  ].filter(Boolean)
+  ].filter(Boolean).join('; ')
+
+  console.log('Setting auth cookie:', cookieString)
 
   const response = new Response(JSON.stringify({ user }), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Set-Cookie': cookieParts.join('; '),
+      'Set-Cookie': cookieString,
     },
   })
 
