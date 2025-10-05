@@ -12,34 +12,28 @@ const resetSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { email, redirectTo } = resetSchema.parse(body)
+    const parsed = resetSchema.safeParse(body)
+
+    if (!parsed.success) {
+      return Response.json({ success: true })
+    }
+
+    const { email, redirectTo } = parsed.data
 
     if (!ENV.SUPABASE_URL || !ENV.SUPABASE_ANON_KEY) {
-      return Response.json(
-        { error: 'Supabase not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY.' },
-        { status: 500 },
-      )
+      return Response.json({ success: true })
     }
 
     const supabase = getSupabaseClient()
-
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectTo,
+      redirectTo,
     })
-
     if (error) {
-      return Response.json({ error: error.message }, { status: 400 })
+      console.warn('Password reset provider error:', error.message)
     }
-
     return Response.json({ success: true })
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return Response.json(
-        { error: error.issues[0]?.message || 'Invalid request' },
-        { status: 422 },
-      )
-    }
     console.error('Password reset error:', error)
-    return Response.json({ error: 'Failed to send reset email' }, { status: 500 })
+    return Response.json({ success: true })
   }
 }
