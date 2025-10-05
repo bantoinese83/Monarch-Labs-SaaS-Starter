@@ -55,7 +55,12 @@ export async function PUT(request: NextRequest) {
         userId: user.id,
         teamId: user.teamId,
         eventType: 'USER_UPDATED',
-        details: { updatedFields: { name, email } },
+        details: {
+          updatedFields: {
+            ...(name !== undefined ? { name } : {}),
+            ...(email !== undefined ? { email } : {}),
+          },
+        },
       })
     }
 
