@@ -16,3 +16,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: { children: 'Secondary Button', variant: 'secondary' },
 }
+
+export const Destructive: Story = {
+  args: { children: 'Destructive Button', variant: 'destructive' },
+}

@@ -23,5 +23,5 @@ export function canAccessTeam(user: User, teamId: string): boolean {
 }
 
 export function canManageItem(user: User, teamId: string): boolean {
-  return user.teamId === teamId
+  return user.teamId === teamId && user.role === 'Owner'
 }

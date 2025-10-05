@@ -69,8 +69,8 @@ export function middleware(request: NextRequest) {
       "img-src 'self' data: blob:",
       // Allow inline scripts via nonce, and tooling domains. If errors persist in
       // 3rd-party injected inline, temporarily include 'unsafe-inline'.
-      `script-src 'self' 'nonce-${nonce}' ${stripeJs} ${vercelLive} 'unsafe-inline'`,
-      "style-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'nonce-${nonce}' ${stripeJs} ${vercelLive}`,
+      "style-src 'self'",
       `connect-src 'self' ${stripeApi} ${vercelInsights} ${vercelLive}`,
       `frame-src ${stripeJs}`,
       "frame-ancestors 'none'",
