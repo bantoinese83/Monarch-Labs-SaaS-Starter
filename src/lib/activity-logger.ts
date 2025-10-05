@@ -1,8 +1,5 @@
 import { prisma } from './db'
-// JSON value type compatible with Prisma JSON columns without importing Prisma types
-type JsonValue = string | number | boolean | null | JsonObject | JsonArray
-interface JsonObject { [key: string]: JsonValue }
-type JsonArray = JsonValue[]
+import { Prisma } from '@/generated/prisma'
 
 export type EventType =
   | 'USER_REGISTERED'
@@ -26,7 +23,7 @@ export interface ActivityLogData {
   userId: string
   teamId: string
   eventType: EventType
-  details: JsonValue
+  details: Prisma.InputJsonValue | null
 }
 
 export async function logActivity(data: ActivityLogData) {
@@ -36,7 +33,7 @@ export async function logActivity(data: ActivityLogData) {
         userId: data.userId,
         teamId: data.teamId,
         eventType: data.eventType,
-        details: data.details,
+        details: data.details ?? Prisma.JsonNull,
       },
     })
   } catch (error) {
