@@ -86,7 +86,7 @@ Dashboard
 ### 1. Clone and Install
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/bantoinese83/Monarch-Labs-SaaS-Starter.git
 cd nextjs-saas-starter
 npm install
 ```
