@@ -1,3 +1,4 @@
+import Link from 'next/link'
 export default function TermsPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
@@ -5,8 +6,8 @@ export default function TermsPage() {
       <p className="mt-4 text-sm text-muted-foreground">Last updated: 2025-01-01</p>
       <section className="prose prose-neutral mt-8 dark:prose-invert">
         <p>
-          These Terms of Service ("Terms") govern your use of this application. By accessing or
-          using the app, you agree to be bound by these Terms.
+          These Terms of Service (&quot;Terms&quot;) govern your use of this application. By
+          accessing or using the app, you agree to be bound by these Terms.
         </p>
         <h2>Use of Service</h2>
         <p>
@@ -20,15 +21,15 @@ export default function TermsPage() {
         </p>
         <h2>Limitation of Liability</h2>
         <p>
-          The service is provided on an "as is" and "as available" basis with no warranties of any
-          kind.
+          The service is provided on an &quot;as is&quot; and &quot;as available&quot; basis with no
+          warranties of any kind.
         </p>
         <p className="mt-8">If you have any questions about these Terms, please contact support.</p>
       </section>
       <div className="mt-10">
-        <a href="/" className="text-primary hover:underline">
+        <Link href="/" className="text-primary hover:underline">
           Go back home
-        </a>
+        </Link>
       </div>
     </main>
   )

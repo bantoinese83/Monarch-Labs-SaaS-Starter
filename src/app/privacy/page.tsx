@@ -1,3 +1,4 @@
+import Link from 'next/link'
 export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
@@ -25,9 +26,9 @@ export default function PrivacyPage() {
         <p className="mt-8">For privacy inquiries, please contact support.</p>
       </section>
       <div className="mt-10">
-        <a href="/" className="text-primary hover:underline">
+        <Link href="/" className="text-primary hover:underline">
           Go back home
-        </a>
+        </Link>
       </div>
     </main>
   )
