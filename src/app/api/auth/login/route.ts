@@ -28,12 +28,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Create JWT token
-    const token = await createToken({
-      userId: user.id,
-      email: user.email,
-      teamId: user.teamId || undefined,
-      role: user.role,
-    })
+    let token: string
+    try {
+      token = await createToken({
+        userId: user.id,
+        email: user.email,
+        teamId: user.teamId || undefined,
+        role: user.role,
+      })
+    } catch (error) {
+      console.error('JWT token creation failed:', error)
+      return Response.json({ error: 'Authentication service unavailable' }, { status: 500 })
+    }
 
     // Log activity
     if (user.teamId) {

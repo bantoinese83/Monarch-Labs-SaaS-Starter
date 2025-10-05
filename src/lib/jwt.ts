@@ -1,6 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose'
 
 if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET is not set in environment variables')
   throw new Error('JWT_SECRET is not set')
 }
 
