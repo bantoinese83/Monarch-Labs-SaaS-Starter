@@ -59,11 +59,12 @@ export default function HomePage() {
                       <div className="p-6 font-mono text-sm text-green-400">
                         <div className="animate-pulse">
                           <div className="mb-2">
-                            $ git clone https://github.com/your-org/nextjs-saas-starter
+                            $ git clone https://github.com/bantoinese83/Monarch-Labs-SaaS-Starter.git my-saas
                           </div>
-                          <div className="mb-2">$ cd nextjs-saas-starter</div>
+                          <div className="mb-2">$ cd my-saas</div>
                           <div className="mb-2">$ npm install</div>
                           <div className="mb-2">$ cp env.example .env</div>
+                          <div className="mb-2">$ npm run dev</div>
                           <div className="text-blue-400">✓ Authentication configured</div>
                           <div className="text-blue-400">✓ Stripe payments integrated</div>
                           <div className="text-blue-400">✓ Team management ready</div>
