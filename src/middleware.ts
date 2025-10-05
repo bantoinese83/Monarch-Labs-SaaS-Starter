@@ -57,6 +57,8 @@ export function middleware(request: NextRequest) {
 
     // CSP tightened: use nonce, and add Stripe & analytics domains
     const stripeJs = 'https://js.stripe.com'
+    // Allow Vercel Live/Feedback script in nonces list (tooling only)
+    const vercelLive = 'https://vercel.live'
     const stripeApi = 'https://api.stripe.com'
     const vercelInsights = 'https://vitals.vercel-insights.com'
 
@@ -65,9 +67,11 @@ export function middleware(request: NextRequest) {
       "base-uri 'self'",
       "font-src 'self' data:",
       "img-src 'self' data: blob:",
-      `script-src 'self' 'nonce-${nonce}' ${stripeJs}`,
+      // Allow inline scripts via nonce, and tooling domains. If errors persist in
+      // 3rd-party injected inline, temporarily include 'unsafe-inline'.
+      `script-src 'self' 'nonce-${nonce}' ${stripeJs} ${vercelLive} 'unsafe-inline'`,
       "style-src 'self' 'unsafe-inline'",
-      `connect-src 'self' ${stripeApi} ${vercelInsights}`,
+      `connect-src 'self' ${stripeApi} ${vercelInsights} ${vercelLive}`,
       `frame-src ${stripeJs}`,
       "frame-ancestors 'none'",
       "form-action 'self'",
