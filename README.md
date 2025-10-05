@@ -334,6 +334,37 @@ npm run storybook:build
 3. Add environment variables in Vercel dashboard
 4. Deploy!
 
+#### Vercel environment variables
+
+- Required
+  - `JWT_SECRET` (32-byte base64)
+  - `NEXT_PUBLIC_APP_URL`
+    - Production: `https://<your-domain>.vercel.app`
+    - Preview: `https://$VERCEL_BRANCH_URL`
+    - Development: `http://localhost:3000`
+  - `DATABASE_URL` (Supabase Postgres connection string)
+  - `NEXT_PUBLIC_SUPABASE_URL` (e.g., `https://<project-ref>.supabase.co`)
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+- Recommended (server-side Supabase helpers)
+  - `SUPABASE_URL` (same as `NEXT_PUBLIC_SUPABASE_URL`)
+  - `SUPABASE_ANON_KEY` (same as `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+
+- Stripe (if billing enabled)
+  - `STRIPE_SECRET_KEY`
+  - `STRIPE_WEBHOOK_SECRET`
+  - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+
+- Optional
+  - `REVALIDATE_SECRET`
+
+Auth redirect setup
+- In Supabase Auth settings, add `https://<your-domain>.vercel.app/reset-password` to Redirect URLs
+
+Notes
+- You can reference Vercel system vars like `$VERCEL_BRANCH_URL` for Preview envs
+- After changing env vars, trigger a redeploy to apply
+
 ### Other Platforms
 
 The app can be deployed to any platform that supports Next.js:
