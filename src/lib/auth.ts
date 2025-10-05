@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from './jwt'
 import { prisma } from './db'
 
@@ -54,47 +54,37 @@ export async function getAuthenticatedUser(
 export function createAuthResponse(user: AuthenticatedUser, token: string) {
   const isProduction = process.env.NODE_ENV === 'production'
   
-  // Create cookie string with proper formatting
-  const cookieString = [
-    `auth-token=${token}`,
-    'HttpOnly',
-    isProduction ? 'Secure' : undefined,
-    'SameSite=Lax',
-    'Path=/',
-    `Max-Age=${60 * 60 * 24 * 7}`,
-  ].filter(Boolean).join('; ')
+  console.log('Creating auth response for user:', user.email)
+  console.log('Production mode:', isProduction)
+  console.log('Token length:', token.length)
 
-  console.log('Setting auth cookie:', cookieString)
-
-  const response = new Response(JSON.stringify({ user }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Set-Cookie': cookieString,
-    },
+  // Use NextResponse for better cookie handling
+  const response = NextResponse.json({ user }, { status: 200 })
+  
+  // Set cookie using NextResponse.cookies
+  response.cookies.set('auth-token', token, {
+    httpOnly: true,
+    secure: false, // Temporarily disable for testing
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   })
+
+  console.log('Cookie set via NextResponse.cookies')
 
   return response
 }
 
 export function createLogoutResponse() {
-  const isProduction = process.env.NODE_ENV === 'production'
-  const cookieParts = [
-    'auth-token=',
-    'HttpOnly',
-    isProduction ? 'Secure' : undefined,
-    'SameSite=Lax', // Changed from Strict to Lax for better compatibility
-    'Path=/',
-    'Max-Age=0',
-    // Don't set domain in production to avoid cookie issues
-  ].filter(Boolean)
-
-  const response = new Response(JSON.stringify({ message: 'Logged out successfully' }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Set-Cookie': cookieParts.join('; '),
-    },
+  const response = NextResponse.json({ message: 'Logged out successfully' }, { status: 200 })
+  
+  // Clear the auth cookie
+  response.cookies.set('auth-token', '', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
   })
 
   return response
