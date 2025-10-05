@@ -5,6 +5,8 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-const nextConfig: NextConfig = {}
+const nextConfig: NextConfig = {
+  outputFileTracingRoot: __dirname,
+}
 
 export default withBundleAnalyzer(nextConfig)
