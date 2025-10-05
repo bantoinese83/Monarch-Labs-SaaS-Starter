@@ -75,7 +75,14 @@ export async function PUT(
       userId: user.id,
       teamId: user.teamId,
       eventType: 'ITEM_UPDATED',
-      details: { itemId: itemId, updatedFields: { name, description, status } },
+      details: {
+        itemId,
+        updatedFields: {
+          ...(name !== undefined ? { name } : {}),
+          ...(description !== undefined ? { description } : {}),
+          ...(status !== undefined ? { status } : {}),
+        },
+      },
     })
 
     return jsonOk({ item: updatedItem })
