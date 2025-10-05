@@ -64,6 +64,16 @@ export default function LoginForm() {
       console.log('Login successful, checking cookies...')
       console.log('Document cookies:', document.cookie)
       
+      // Check for specific cookies
+      const authToken = document.cookie.split(';').find(c => c.trim().startsWith('auth-token='))
+      const authTokenTest = document.cookie.split(';').find(c => c.trim().startsWith('auth-token-test='))
+      console.log('Auth token cookie:', authToken)
+      console.log('Auth token test cookie:', authTokenTest)
+      
+      // Try to set a test cookie manually
+      document.cookie = 'manual-test=test-value; path=/; max-age=3600'
+      console.log('Manual test cookie set, all cookies:', document.cookie)
+      
       const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
       window.location.href = callbackUrl
     } catch (err) {

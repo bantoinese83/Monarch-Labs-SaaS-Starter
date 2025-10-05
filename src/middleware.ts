@@ -43,7 +43,9 @@ export function middleware(request: NextRequest) {
     console.log('Middleware - Path:', pathname)
     console.log('Middleware - Has token:', !!token)
     console.log('Middleware - Token length:', token?.length || 0)
-    console.log('Middleware - All cookies:', request.cookies.getAll().map(c => c.name))
+    console.log('Middleware - All cookies:', request.cookies.getAll().map(c => `${c.name}=${c.value.substring(0, 20)}...`))
+    console.log('Middleware - Cookie names:', request.cookies.getAll().map(c => c.name))
+    console.log('Middleware - Request headers:', Object.fromEntries(request.headers.entries()))
   }
 
   // If it's a public route or public API route, allow access

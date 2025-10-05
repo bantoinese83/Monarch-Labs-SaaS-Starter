@@ -58,27 +58,45 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
   console.log('Production mode:', isProduction)
   console.log('Token length:', token.length)
 
-  // Use NextResponse for better cookie handling
+  // Try multiple cookie setting approaches
   const response = NextResponse.json({ user }, { status: 200 })
   
-  // Set cookie with minimal configuration for maximum compatibility
-  response.cookies.set('auth-token', token, {
-    httpOnly: true,
-    secure: false, // Disable for now to test
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    // Don't set domain to avoid issues
-  })
+  // Approach 1: NextResponse.cookies.set()
+  try {
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    })
+    console.log('Cookie set via NextResponse.cookies.set()')
+  } catch (error) {
+    console.error('NextResponse.cookies.set() failed:', error)
+  }
 
-  console.log('Cookie set via NextResponse.cookies')
-  console.log('Cookie configuration:', {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7
-  })
+  // Approach 2: Manual Set-Cookie header
+  try {
+    const cookieString = `auth-token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}`
+    response.headers.set('Set-Cookie', cookieString)
+    console.log('Cookie set via manual Set-Cookie header:', cookieString)
+  } catch (error) {
+    console.error('Manual Set-Cookie header failed:', error)
+  }
+
+  // Approach 3: Multiple cookies for testing
+  try {
+    response.cookies.set('auth-token-test', token, {
+      httpOnly: false, // Allow JavaScript access for testing
+      secure: false,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    })
+    console.log('Test cookie set (non-HttpOnly)')
+  } catch (error) {
+    console.error('Test cookie setting failed:', error)
+  }
 
   return response
 }
