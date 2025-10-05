@@ -61,16 +61,24 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
   // Use NextResponse for better cookie handling
   const response = NextResponse.json({ user }, { status: 200 })
   
-  // Set cookie using NextResponse.cookies
+  // Set cookie with minimal configuration for maximum compatibility
   response.cookies.set('auth-token', token, {
     httpOnly: true,
-    secure: false, // Temporarily disable for testing
+    secure: false, // Disable for now to test
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 24 * 7, // 7 days
+    // Don't set domain to avoid issues
   })
 
   console.log('Cookie set via NextResponse.cookies')
+  console.log('Cookie configuration:', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7
+  })
 
   return response
 }
