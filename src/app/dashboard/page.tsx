@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Users, CreditCard, FileText, Activity, TrendingUp } from 'lucide-react'
-import { Prisma } from '@/generated/prisma'
+import type { Prisma } from '@prisma/client'
 
 interface DashboardStats {
   totalItems: number
