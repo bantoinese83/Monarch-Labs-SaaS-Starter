@@ -10,7 +10,12 @@ export function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.includes(pathname)
 
   // API routes that don't require authentication
-  const publicApiRoutes = ['/api/auth/login', '/api/auth/register', '/api/stripe/webhook']
+  const publicApiRoutes = [
+    '/api/auth/login',
+    '/api/auth/register',
+    '/api/auth/password/reset',
+    '/api/stripe/webhook',
+  ]
   const isPublicApiRoute = publicApiRoutes.some(route => pathname.startsWith(route))
 
   const token = request.cookies.get('auth-token')?.value
