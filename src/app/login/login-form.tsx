@@ -66,9 +66,17 @@ export default function LoginForm() {
       
       // Check for specific cookies
       const authToken = document.cookie.split(';').find(c => c.trim().startsWith('auth-token='))
-      const authTokenTest = document.cookie.split(';').find(c => c.trim().startsWith('auth-token-test='))
+      const authTokenFallback = document.cookie.split(';').find(c => c.trim().startsWith('auth-token-fallback='))
       console.log('Auth token cookie:', authToken)
-      console.log('Auth token test cookie:', authTokenTest)
+      console.log('Auth token fallback cookie:', authTokenFallback)
+      
+      // Fallback: Store token in localStorage if cookies are not working
+      if (data.token) {
+        console.log('Storing token in localStorage as fallback')
+        localStorage.setItem('auth-token', data.token)
+        localStorage.setItem('auth-user', JSON.stringify(data.user))
+        console.log('Token stored in localStorage:', data.token.substring(0, 20) + '...')
+      }
       
       // Try to set a test cookie manually
       document.cookie = 'manual-test=test-value; path=/; max-age=3600'

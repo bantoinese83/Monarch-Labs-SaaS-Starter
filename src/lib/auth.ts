@@ -59,7 +59,11 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
   console.log('Token length:', token.length)
 
   // Try multiple cookie setting approaches
-  const response = NextResponse.json({ user }, { status: 200 })
+  const response = NextResponse.json({ 
+    user, 
+    token, // Include token in response for localStorage fallback
+    message: 'Authentication successful. Token included for localStorage fallback.'
+  }, { status: 200 })
   
   // Approach 1: NextResponse.cookies.set()
   try {
@@ -84,18 +88,18 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
     console.error('Manual Set-Cookie header failed:', error)
   }
 
-  // Approach 3: Multiple cookies for testing
+  // Approach 3: Non-HttpOnly cookie for localStorage fallback
   try {
-    response.cookies.set('auth-token-test', token, {
-      httpOnly: false, // Allow JavaScript access for testing
+    response.cookies.set('auth-token-fallback', token, {
+      httpOnly: false, // Allow JavaScript access for localStorage fallback
       secure: false,
       sameSite: 'lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
     })
-    console.log('Test cookie set (non-HttpOnly)')
+    console.log('Fallback cookie set (non-HttpOnly)')
   } catch (error) {
-    console.error('Test cookie setting failed:', error)
+    console.error('Fallback cookie setting failed:', error)
   }
 
   return response

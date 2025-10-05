@@ -9,6 +9,9 @@ import {
   generateOrganizationStructuredData,
 } from '@/lib/seo'
 
+// Import client-side auth middleware
+import '@/lib/auth-middleware-client'
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
