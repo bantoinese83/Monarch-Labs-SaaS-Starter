@@ -69,9 +69,10 @@ export async function POST(request: NextRequest) {
             teamId,
             eventType: 'PLAN_UPGRADED',
             details: {
-              subscriptionId:
-                typeof session.subscription === 'string' ? session.subscription : null,
-              priceId,
+              ...(typeof session.subscription === 'string'
+                ? { subscriptionId: session.subscription }
+                : {}),
+              ...(priceId ? { priceId } : {}),
             },
           })
         }
