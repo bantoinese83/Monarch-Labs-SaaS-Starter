@@ -1,5 +1,5 @@
 import { prisma } from './db'
-import { Prisma } from '../generated/prisma'
+// Avoid Prisma version-specific JSON types in shared code
 
 export type EventType =
   | 'USER_REGISTERED'
@@ -23,7 +23,7 @@ export interface ActivityLogData {
   userId: string
   teamId: string
   eventType: EventType
-  details: Prisma.InputJsonValue
+  details: unknown
 }
 
 export async function logActivity(data: ActivityLogData) {
@@ -33,7 +33,7 @@ export async function logActivity(data: ActivityLogData) {
         userId: data.userId,
         teamId: data.teamId,
         eventType: data.eventType,
-        details: data.details,
+        details: data.details as any,
       },
     })
   } catch (error) {
