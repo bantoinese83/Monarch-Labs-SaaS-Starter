@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Users, CreditCard, FileText, Activity, TrendingUp } from 'lucide-react'
-import type { Prisma } from '@prisma/client'
+// Prisma JSON type differs across versions; use unknown for API payload
 
 interface DashboardStats {
   totalItems: number
@@ -12,7 +12,7 @@ interface DashboardStats {
   recentActivity: Array<{
     id: string
     eventType: string
-    details: Prisma.InputJsonValue
+    details: unknown
     timestamp: string
     user: {
       name: string
