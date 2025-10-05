@@ -57,10 +57,10 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
     `auth-token=${token}`,
     'HttpOnly',
     isProduction ? 'Secure' : undefined,
-    'SameSite=Strict',
+    'SameSite=Lax', // Changed from Strict to Lax for better compatibility
     'Path=/',
     `Max-Age=${60 * 60 * 24 * 7}`,
-    process.env.COOKIE_DOMAIN ? `Domain=${process.env.COOKIE_DOMAIN}` : undefined,
+    // Don't set domain in production to avoid cookie issues
   ].filter(Boolean)
 
   const response = new Response(JSON.stringify({ user }), {
@@ -80,10 +80,10 @@ export function createLogoutResponse() {
     'auth-token=',
     'HttpOnly',
     isProduction ? 'Secure' : undefined,
-    'SameSite=Strict',
+    'SameSite=Lax', // Changed from Strict to Lax for better compatibility
     'Path=/',
     'Max-Age=0',
-    process.env.COOKIE_DOMAIN ? `Domain=${process.env.COOKIE_DOMAIN}` : undefined,
+    // Don't set domain in production to avoid cookie issues
   ].filter(Boolean)
 
   const response = new Response(JSON.stringify({ message: 'Logged out successfully' }), {

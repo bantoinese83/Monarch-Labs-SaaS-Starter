@@ -5,8 +5,22 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
 
+  // Skip middleware for static files and API routes that don't need auth
+  if (
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/favicon') ||
+    pathname.startsWith('/monarch-logo') ||
+    pathname.startsWith('/next.svg') ||
+    pathname.startsWith('/vercel.svg') ||
+    pathname.startsWith('/window.svg') ||
+    pathname.startsWith('/file.svg') ||
+    pathname.startsWith('/globe.svg')
+  ) {
+    return NextResponse.next()
+  }
+
   // Public routes that don't require authentication
-  const publicRoutes = ['/', '/pricing', '/login', '/signup', '/forgot-password']
+  const publicRoutes = ['/', '/pricing', '/login', '/signup', '/forgot-password', '/reset-password', '/privacy', '/terms']
   const isPublicRoute = publicRoutes.includes(pathname)
 
   // API routes that don't require authentication
@@ -16,24 +30,27 @@ export function middleware(request: NextRequest) {
     '/api/auth/password/reset',
     '/api/stripe/webhook',
     '/api/og',
+    '/api/health',
+    '/api/debug',
   ]
   const isPublicApiRoute = publicApiRoutes.some(route => pathname.startsWith(route))
 
   const token = request.cookies.get('auth-token')?.value
-
-  // If user is authenticated and tries to visit login or signup, redirect to callbackUrl or dashboard
-  if (token && (pathname === '/login' || pathname === '/signup')) {
-    const callbackUrl = searchParams.get('callbackUrl')
-    return NextResponse.redirect(new URL(callbackUrl || '/dashboard', request.url))
-  }
+  const isAuthenticated = !!token
 
   // If it's a public route or public API route, allow access
   if (isPublicRoute || isPublicApiRoute) {
     return NextResponse.next()
   }
 
-  if (!token) {
-    // Redirect to login for protected routes
+  // If user is authenticated and tries to visit login or signup, redirect to dashboard
+  if (isAuthenticated && (pathname === '/login' || pathname === '/signup')) {
+    const callbackUrl = searchParams.get('callbackUrl')
+    return NextResponse.redirect(new URL(callbackUrl || '/dashboard', request.url))
+  }
+
+  // If user is not authenticated and tries to access protected routes
+  if (!isAuthenticated) {
     if (pathname.startsWith('/dashboard') || pathname.startsWith('/api/')) {
       if (pathname.startsWith('/api/')) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -93,7 +110,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|monarch-logo.svg|next.svg|vercel.svg|window.svg|file.svg|globe.svg).*)',
   ],
 }
