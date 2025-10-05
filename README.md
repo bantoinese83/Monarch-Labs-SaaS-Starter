@@ -35,6 +35,41 @@ Production‑grade starter for building modern SaaS with Next.js 15, TypeScript,
 
 ## Features
 
+### 🚀 **Core Features**
+- 🚀 **Next.js 15 (App Router)** with React Server Components
+- 🧱 **Strict TypeScript** + Zod runtime validation (T3 Env‑style `src/env.ts`)
+- 🔐 **Auth**: JWT cookies (HttpOnly, Secure, SameSite=Strict), middleware protection, RBAC
+- 💳 **Stripe Billing**: Checkout, Portal, secure webhook (idempotent), plan/status sync
+- 👥 **Teams**: Multi‑tenant, members/roles, owner controls
+- 🗺️ **Routing**: ISR (`revalidate`) + on‑demand revalidation endpoint
+- 📦 **Bundle analyzer** + **CI bundle budget** guard (First Load JS threshold)
+- 🧪 **Testing**: Vitest + RTL (unit), Playwright (e2e), Lighthouse CI workflow
+- 🧰 **DX**: ESLint 9, Prettier, Husky + Commitlint, lint‑staged, Renovate
+- 🧭 **Observability**: OpenTelemetry scaffold (env‑guarded exporter)
+- 🎨 **UI**: Tailwind CSS v4, Radix‑ready, CVA helpers, cohesive Grunge theme
+- 🩺 **Health**: `/api/health` (DB round‑trip), Kubernetes‑friendly
+
+### 📱 **Mobile & Performance**
+- 📱 **100% Mobile Responsive**: Touch-friendly interactions, safe area handling, responsive typography
+- ⚡ **Performance Optimized**: Image optimization (WebP/AVIF), compression, caching
+- 🎯 **Core Web Vitals**: Optimized for LCP, CLS, FID with comprehensive performance monitoring
+- 📐 **Responsive Design**: Mobile-first approach with comprehensive breakpoints (xs, sm, md, lg, xl, 2xl, 3xl)
+- 👆 **Touch Optimization**: Minimum 44px touch targets, touch manipulation, gesture support
+
+### 🔍 **SEO & Discoverability**
+- 🔍 **Full SEO Coverage**: Comprehensive meta tags, structured data, sitemap.xml, robots.txt
+- 🖼️ **Dynamic OpenGraph Images**: Server-generated OG images with customizable themes (light/dark)
+- 📊 **Structured Data**: JSON-LD for websites, organizations, software applications, breadcrumbs
+- 🎨 **Social Sharing**: Twitter Cards, OpenGraph, and dynamic image generation for every page
+- 🛡️ **Security Headers**: CSP policies, security headers, and comprehensive protection
+
+### 🎨 **UI/UX Enhancements**
+- 🎨 **Grunge Theme**: Cohesive dark theme with custom CSS variables and utilities
+- 📱 **Mobile-First**: Responsive design patterns with touch-friendly interactions
+- 🎭 **Animations**: Smooth transitions, hover effects, and micro-interactions
+- 🎯 **Accessibility**: ARIA labels, keyboard navigation, focus management, color contrast
+- 🎪 **PWA Support**: Manifest file, viewport optimization, offline capabilities
+
 ## Screenshots
 
 ### App Screenshots (2xl)
@@ -51,28 +86,32 @@ Dashboard
 
 ![Dashboard – 2xl](.playwright-mcp/dashboard-2xl-hero.png)
 
-- 🚀 **Next.js 15 (App Router)** with React Server Components
-- 🧱 **Strict TypeScript** + Zod runtime validation (T3 Env‑style `src/env.ts`)
-- 🔐 **Auth**: JWT cookies (HttpOnly, Secure, SameSite=Strict), middleware protection, RBAC
-- 💳 **Stripe Billing**: Checkout, Portal, secure webhook (idempotent), plan/status sync
-- 👥 **Teams**: Multi‑tenant, members/roles, owner controls
-- 🗺️ **Routing**: ISR (`revalidate`) + on‑demand revalidation endpoint
-- 📦 **Bundle analyzer** + **CI bundle budget** guard (First Load JS threshold)
-- 🧪 **Testing**: Vitest + RTL (unit), Playwright (e2e), Lighthouse CI workflow
-- 🧰 **DX**: ESLint 9, Prettier, Husky + Commitlint, lint‑staged, Renovate
-- 🧭 **Observability**: OpenTelemetry scaffold (env‑guarded exporter)
-- 🎨 **UI**: Tailwind CSS v4, Radix‑ready, CVA helpers, cohesive Grunge theme
-- 🩺 **Health**: `/api/health` (DB round‑trip), Kubernetes‑friendly
-
 ## Tech Stack
 
+### 🏗️ **Core Framework**
 - **App**: Next.js 15 (App Router), React 19, TypeScript
 - **DB/ORM**: Supabase Postgres, Prisma
 - **Auth**: JWT + cookies (JOSE, bcrypt)
 - **Billing**: Stripe
 - **Validation**: Zod (+ env validation)
+
+### 🎨 **UI & Styling**
 - **Styles**: Tailwind CSS v4, CVA, Radix‑ready
+- **Mobile**: Responsive design, touch optimization, safe area handling
+- **Performance**: Image optimization (WebP/AVIF), compression, caching
+- **PWA**: Manifest, viewport optimization, offline capabilities
+
+### 🔍 **SEO & Social**
+- **SEO**: Meta tags, structured data, sitemap.xml, robots.txt
+- **OpenGraph**: Dynamic image generation with customizable themes
+- **Social**: Twitter Cards, OpenGraph, social sharing optimization
+- **Security**: CSP policies, security headers, comprehensive protection
+
+### 🧪 **Quality & CI/CD**
+- **Testing**: Vitest + RTL (unit), Playwright (e2e), Lighthouse CI
 - **CI/CD**: GitHub Actions (lint/typecheck/build/test + budget + Lighthouse CI)
+- **Code Quality**: ESLint 9, Prettier, Husky + Commitlint, lint‑staged
+- **Performance**: Bundle analyzer, Core Web Vitals optimization
 
 ## Getting Started
 
@@ -93,6 +132,32 @@ This will:
 - ✅ Setup database automatically
 - ✅ Run tests to verify everything works
 - ✅ Generate secure JWT secrets
+
+### 🆕 **New Features (Latest Update)**
+
+#### 📱 **100% Mobile Responsive**
+- Touch-friendly interactions with minimum 44px touch targets
+- Safe area handling for modern devices (iPhone X+)
+- Responsive typography and spacing with mobile-first approach
+- Comprehensive breakpoints (xs, sm, md, lg, xl, 2xl, 3xl)
+
+#### 🔍 **Full SEO Coverage**
+- Dynamic sitemap.xml and robots.txt generation
+- Comprehensive meta tags with OpenGraph and Twitter Cards
+- JSON-LD structured data for better search visibility
+- Security headers and CSP policies
+
+#### 🖼️ **Dynamic OpenGraph Images**
+- Server-generated OG images with customizable themes (light/dark)
+- Support for different content types (website, article, product)
+- Test page available at `/test-og` to preview images
+- Proper caching and performance optimization
+
+#### ⚡ **Performance & PWA**
+- Manifest file for Progressive Web App capabilities
+- Viewport optimization for mobile devices
+- Image optimization with WebP/AVIF support
+- Bundle analysis and compression
 
 ### 🐳 Local Development (Docker)
 
@@ -184,12 +249,18 @@ src/
 │   │   ├── auth/          # Authentication endpoints
 │   │   ├── items/         # Items CRUD endpoints
 │   │   ├── teams/         # Team management endpoints
-│   │   └── stripe/        # Stripe integration endpoints
+│   │   ├── stripe/        # Stripe integration endpoints
+│   │   └── og/            # Dynamic OpenGraph image generation
 │   ├── dashboard/         # Protected dashboard pages
 │   │   ├── loading.tsx    # Route-level skeletons
 │   ├── login/             # Authentication pages
 │   ├── signup/
 │   ├── pricing/
+│   ├── test-og/           # OpenGraph image testing page
+│   ├── manifest.ts        # PWA manifest
+│   ├── robots.ts          # Robots.txt
+│   ├── sitemap.ts         # Sitemap.xml
+│   ├── viewport.ts        # Viewport configuration
 │   └── page.tsx           # Landing page
 ├── lib/                   # Utility libraries
 │   ├── auth.ts           # Authentication helpers
@@ -204,7 +275,10 @@ src/
 │   ├── http.ts           # JSON helpers
 │   ├── guards.ts         # Guard helpers
 │   ├── otel.ts           # Otel tracing scaffold
-│   └── env.ts            # Env validation (T3 Env‑style)
+│   ├── env.ts            # Env validation (T3 Env‑style)
+│   ├── seo.ts            # SEO utilities and metadata generation
+│   ├── og-image.ts       # OpenGraph image utilities
+│   └── mobile-optimization.ts # Mobile optimization utilities
 └── generated/            # Generated Prisma client
 ```
 
@@ -247,6 +321,12 @@ src/
 
 - `GET /api/health` - DB round‑trip health check
 - `POST /api/revalidate?path=/&secret=...` - On‑demand ISR
+
+### SEO & Social
+
+- `GET /api/og` - Dynamic OpenGraph image generation
+  - Parameters: `title`, `description`, `type`, `theme`
+  - Example: `/api/og?title=My%20Page&description=Description&type=website&theme=dark`
 
 ### Activity Logs
 

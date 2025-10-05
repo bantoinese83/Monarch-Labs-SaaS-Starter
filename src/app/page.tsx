@@ -36,17 +36,17 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
             <div className="mx-auto max-w-4xl">
-              <h1 className="mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl grunge-headline text-balance">
-                Raw & Unfiltered
-                <span className="bg-gradient-to-r from-fuchsia-600 to-purple-600 bg-clip-text text-transparent">
-                  {' '}
-                  SaaS
-                </span>
-              </h1>
-              <p className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-300 grunge-ink text-balance max-w-3xl mx-auto">
-                A complete Next.js starter template with authentication, payments, team management,
-                and everything you need to launch your SaaS product.
-              </p>
+            <h1 className="mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl grunge-headline text-balance">
+              Raw & Unfiltered
+              <span className="bg-gradient-to-r from-fuchsia-600 to-purple-600 bg-clip-text text-transparent">
+                {' '}
+                SaaS
+              </span>
+            </h1>
+            <p className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-300 grunge-ink text-balance max-w-3xl mx-auto">
+              A complete Next.js starter template with authentication, payments, team management,
+              100% mobile responsive design, full SEO coverage, and dynamic OpenGraph images.
+            </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                 <Link
                   href="/signup"
@@ -183,18 +183,17 @@ const features = [
   },
   {
     icon: Star,
-    title: 'Activity Logging',
-    description: 'Comprehensive audit trail for all user actions and system events.',
+    title: 'Mobile Responsive',
+    description: '100% mobile responsive design with touch-friendly interactions and safe area handling.',
   },
   {
     icon: Check,
-    title: 'Modern Stack',
-    description:
-      'Next.js 15, React 19, TypeScript, Tailwind CSS, and Prisma for the best developer experience.',
+    title: 'SEO Optimized',
+    description: 'Full SEO coverage with meta tags, structured data, sitemap, and dynamic OpenGraph images.',
   },
   {
     icon: ArrowRight,
-    title: 'Production Ready',
-    description: 'Deployed on Vercel with Supabase database and optimized for performance.',
+    title: 'Performance Ready',
+    description: 'Optimized for Core Web Vitals with image optimization, compression, and caching.',
   },
 ]
