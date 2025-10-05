@@ -62,13 +62,12 @@ export default function HomePage() {
                             $ git clone https://github.com/bantoinese83/Monarch-Labs-SaaS-Starter.git my-saas
                           </div>
                           <div className="mb-2">$ cd my-saas</div>
-                          <div className="mb-2">$ npm install</div>
-                          <div className="mb-2">$ cp env.example .env</div>
-                          <div className="mb-2">$ npm run dev</div>
-                          <div className="text-blue-400">✓ Authentication configured</div>
-                          <div className="text-blue-400">✓ Stripe payments integrated</div>
-                          <div className="text-blue-400">✓ Team management ready</div>
-                          <div className="text-green-400">✓ Ready to deploy!</div>
+                          <div className="mb-2">$ npm run setup</div>
+                          <div className="text-blue-400">✓ Dependencies installed</div>
+                          <div className="text-blue-400">✓ Environment configured</div>
+                          <div className="text-blue-400">✓ Database setup</div>
+                          <div className="text-blue-400">✓ Tests passed</div>
+                          <div className="text-green-400">✓ Ready to code!</div>
                         </div>
                       </div>
                     </div>

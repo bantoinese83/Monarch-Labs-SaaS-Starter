@@ -76,91 +76,104 @@ Dashboard
 
 ## Getting Started
 
-### Prerequisites
+### 🚀 Quick Start (Recommended)
 
-- Node.js 20+
-- npm (or pnpm/corepack if preferred)
-- Supabase project (Postgres)
-- Stripe account (webhooks + products/prices)
-
-### 1. Clone and Install
+Get your SaaS running in under 5 minutes:
 
 ```bash
-git clone https://github.com/bantoinese83/Monarch-Labs-SaaS-Starter.git
-cd nextjs-saas-starter
-npm install
+# Clone and setup automatically
+git clone https://github.com/bantoinese83/Monarch-Labs-SaaS-Starter.git my-saas
+cd my-saas
+npm run setup
 ```
 
-### 2. Environment Setup
+This will:
+- ✅ Install all dependencies
+- ✅ Create `.env` file with secure defaults
+- ✅ Setup database automatically
+- ✅ Run tests to verify everything works
+- ✅ Generate secure JWT secrets
 
-Copy the environment template and fill in your values:
+### 🐳 Local Development (Docker)
+
+For local development with PostgreSQL:
 
 ```bash
-cp env.example .env
+# Start local database
+docker-compose up -d
+
+# Run setup (uses local database)
+npm run setup
 ```
 
-Update `.env` with your configuration (validated by `src/env.ts`):
+### ☁️ Production Setup (Supabase)
 
-```env
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+For production deployment:
 
-# Database (Supabase)
-DATABASE_URL=postgresql://postgres.[project-ref]:[password]@db.[project-ref].supabase.co:5432/postgres
+1. **Create Supabase Project**
+   - Go to [Supabase Dashboard](https://supabase.com/dashboard)
+   - Create new project
+   - Copy database URL and keys
 
-# Auth
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-JWT_EXPIRES_IN=7d
+2. **Update Environment**
+   ```bash
+   # Edit .env file with your Supabase credentials
+   DATABASE_URL=postgresql://postgres.[project-ref]:[password]@db.[project-ref].supabase.co:5432/postgres
+   NEXT_PUBLIC_SUPABASE_URL=https://[project-ref].supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   ```
 
-# Stripe
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_PRICE_STARTER=price_...
-STRIPE_PRICE_PRO=price_...
+3. **Setup Database**
+   ```bash
+   npm run db:push
+   ```
 
-# ISR / Revalidation
-REVALIDATE_SECRET=super-secret
+### 💳 Stripe Configuration
 
-# Observability (optional)
-# OTEL_EXPORTER_OTLP_ENDPOINT=https://otel.example.com/v1/traces
-# OTEL_EXPORTER_OTLP_HEADERS={"Authorization":"Bearer token"}
+1. **Get Stripe Keys**
+   - Go to [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+   - Copy your test keys
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://[project-ref].supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
+2. **Update Environment**
+   ```env
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_PRICE_STARTER=price_...
+   STRIPE_PRICE_PRO=price_...
+   ```
 
-### 3. Database Setup
+3. **Setup Webhooks**
+   - Add webhook endpoint: `https://your-domain.com/api/stripe/webhook`
+   - Select events: `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`
 
-The schema matches the Prisma models. To apply locally or develop migrations:
+### 🚀 Deployment
 
+#### Option 1: Automated Deploy
 ```bash
-npx prisma db push
+npm run deploy
 ```
 
-### 4. Stripe Setup
-
-1. Create a Stripe account and get your API keys
-2. Create products and prices in your Stripe dashboard
-3. Update the price IDs in your `.env` file
-4. Set up webhook endpoints pointing to `/api/stripe/webhook`
-
-### 5. Run the Application
-
+#### Option 2: Manual Vercel Deploy
 ```bash
-npm run dev
+# Install Vercel CLI
+npm install -g vercel
+
+# Login and deploy
+vercel login
+vercel --prod
 ```
 
-Visit [http://localhost:3000](http://localhost:3000).
-
-### 6. Optional: On‑Demand Revalidation
-
-Call the secured endpoint to refresh a path:
-
-```
-POST /api/revalidate?path=/&secret=$REVALIDATE_SECRET
-```
+#### Environment Variables for Production
+Set these in your Vercel dashboard:
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+- `STRIPE_PRICE_STARTER`
+- `STRIPE_PRICE_PRO`
+- `NEXT_PUBLIC_APP_URL`
 
 ## Project Structure
 
@@ -293,29 +306,49 @@ src/
 
 ## Scripts
 
+### 🚀 Setup & Development
 ```bash
-# Dev / build
-npm run dev
-npm run build
-npm run start
+npm run setup        # Complete automated setup
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+```
 
-# Quality
-npm run lint
-npm run typecheck
-npm run test          # Vitest (unit)
-npm run e2e:install   # Playwright browsers
-npm run e2e           # Playwright (e2e)
+### 🗄️ Database
+```bash
+npm run db:push      # Push schema changes to database
+npm run db:studio    # Open Prisma Studio (database GUI)
+npm run db:seed      # Seed database with sample data
+```
 
-# Formatting
-npm run format
-npm run format:check
+### 🚀 Deployment
+```bash
+npm run deploy       # Deploy to Vercel (automated)
+```
 
-# Analyze bundle
-npm run analyze       # ANALYZE=true next build
+### 🧪 Testing & Quality
+```bash
+npm run test         # Run unit tests (Vitest)
+npm run e2e          # Run end-to-end tests (Playwright)
+npm run e2e:install  # Install Playwright browsers
+npm run lint         # ESLint
+npm run typecheck    # TypeScript check
+npm run format       # Format code with Prettier
+npm run format:check # Check code formatting
+```
 
-# Storybook
-npm run storybook
-npm run storybook:build
+### 📊 Analysis
+```bash
+npm run analyze      # Bundle analysis
+npm run storybook    # Component development
+npm run storybook:build # Build Storybook
+```
+
+### 🐳 Docker (Local Development)
+```bash
+docker-compose up -d  # Start PostgreSQL and Redis
+docker-compose down   # Stop services
+docker-compose logs   # View logs
 ```
 
 ## CI / Quality Gates
