@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
     '/api/auth/register',
     '/api/auth/password/reset',
     '/api/stripe/webhook',
+    '/api/og',
   ]
   const isPublicApiRoute = publicApiRoutes.some(route => pathname.startsWith(route))
 
