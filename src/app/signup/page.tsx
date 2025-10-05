@@ -39,6 +39,10 @@ function SignUpForm() {
         throw new Error(data.error || 'Failed to create account')
       }
 
+      // Debug: Check if cookie was set
+      console.log('Registration successful, checking cookies...')
+      console.log('Document cookies:', document.cookie)
+      
       const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
       window.location.href = callbackUrl
     } catch (err) {

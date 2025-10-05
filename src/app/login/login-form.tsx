@@ -60,6 +60,10 @@ export default function LoginForm() {
         throw new Error(data.error || 'Failed to sign in')
       }
 
+      // Debug: Check if cookie was set
+      console.log('Login successful, checking cookies...')
+      console.log('Document cookies:', document.cookie)
+      
       const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
       window.location.href = callbackUrl
     } catch (err) {
