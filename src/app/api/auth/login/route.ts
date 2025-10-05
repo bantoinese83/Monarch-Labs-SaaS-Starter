@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    return createAuthResponse(
+    const response = createAuthResponse(
       {
         id: user.id,
         email: user.email,
@@ -61,6 +61,14 @@ export async function POST(request: NextRequest) {
       },
       token,
     )
+    
+    // Add CORS headers for credentials
+    response.headers.set('Access-Control-Allow-Credentials', 'true')
+    response.headers.set('Access-Control-Allow-Origin', process.env.NEXT_PUBLIC_APP_URL || 'https://monarch-labs-saas-starter.vercel.app')
+    response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    
+    return response
   } catch (error) {
     console.error('Login error:', error)
     return Response.json({ error: 'Failed to login' }, { status: 500 })

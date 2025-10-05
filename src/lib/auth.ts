@@ -58,41 +58,47 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
   console.log('Production mode:', isProduction)
   console.log('Token length:', token.length)
 
-  // Try multiple cookie setting approaches
+  // Use manual Set-Cookie header approach (most reliable for production)
   const response = NextResponse.json({ 
     user, 
     token, // Include token in response for localStorage fallback
     message: 'Authentication successful. Token included for localStorage fallback.'
   }, { status: 200 })
   
-  // Approach 1: NextResponse.cookies.set()
-  try {
-    response.cookies.set('auth-token', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    })
-    console.log('Cookie set via NextResponse.cookies.set()')
-  } catch (error) {
-    console.error('NextResponse.cookies.set() failed:', error)
+  // Production-optimized cookie setting
+  const cookieOptions = {
+    httpOnly: true,
+    secure: isProduction, // Secure in production, not in development
+    sameSite: 'lax' as const,
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   }
-
-  // Approach 2: Manual Set-Cookie header
+  
+  console.log('Cookie options:', cookieOptions)
+  
+  // Method 1: Manual Set-Cookie header (most reliable)
   try {
-    const cookieString = `auth-token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}`
+    const secureFlag = isProduction ? '; Secure' : ''
+    const cookieString = `auth-token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${60 * 60 * 24 * 7}${secureFlag}`
     response.headers.set('Set-Cookie', cookieString)
     console.log('Cookie set via manual Set-Cookie header:', cookieString)
   } catch (error) {
     console.error('Manual Set-Cookie header failed:', error)
   }
 
-  // Approach 3: Non-HttpOnly cookie for localStorage fallback
+  // Method 2: NextResponse.cookies.set() as backup
+  try {
+    response.cookies.set('auth-token', token, cookieOptions)
+    console.log('Cookie set via NextResponse.cookies.set()')
+  } catch (error) {
+    console.error('NextResponse.cookies.set() failed:', error)
+  }
+
+  // Method 3: Non-HttpOnly cookie for localStorage fallback
   try {
     response.cookies.set('auth-token-fallback', token, {
-      httpOnly: false, // Allow JavaScript access for localStorage fallback
-      secure: false,
+      httpOnly: false,
+      secure: isProduction,
       sameSite: 'lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
@@ -106,12 +112,18 @@ export function createAuthResponse(user: AuthenticatedUser, token: string) {
 }
 
 export function createLogoutResponse() {
+  const isProduction = process.env.NODE_ENV === 'production'
   const response = NextResponse.json({ message: 'Logged out successfully' }, { status: 200 })
   
-  // Clear the auth cookie
+  // Clear the auth cookie with production-optimized settings
+  const secureFlag = isProduction ? '; Secure' : ''
+  const cookieString = `auth-token=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secureFlag}`
+  response.headers.set('Set-Cookie', cookieString)
+  
+  // Also clear via NextResponse.cookies.set()
   response.cookies.set('auth-token', '', {
     httpOnly: true,
-    secure: false,
+    secure: isProduction,
     sameSite: 'lax',
     path: '/',
     maxAge: 0,
