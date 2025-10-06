@@ -6,6 +6,38 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  // Check if Supabase is properly configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {
+    // Use fallback authentication (demo cookies)
+    const isAuthenticated = request.cookies.get('demo-auth')?.value === 'true'
+    
+    if (
+      !isAuthenticated &&
+      !request.nextUrl.pathname.startsWith('/login') &&
+      !request.nextUrl.pathname.startsWith('/signup') &&
+      !request.nextUrl.pathname.startsWith('/forgot-password') &&
+      !request.nextUrl.pathname.startsWith('/reset-password') &&
+      !request.nextUrl.pathname.startsWith('/auth-callback') &&
+      !request.nextUrl.pathname.startsWith('/auth/confirm') &&
+      !request.nextUrl.pathname.startsWith('/api/') &&
+      request.nextUrl.pathname !== '/' &&
+      request.nextUrl.pathname !== '/pricing' &&
+      request.nextUrl.pathname !== '/privacy' &&
+      request.nextUrl.pathname !== '/terms' &&
+      request.nextUrl.pathname !== '/error'
+    ) {
+      // no user, potentially respond by redirecting the user to the login page
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+
+    return supabaseResponse
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

@@ -2,16 +2,52 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Users, CreditCard, FileText, Activity } from 'lucide-react'
+import { cookies } from 'next/headers'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
+  // Check if Supabase is properly configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  let user = null
+  let userEmail = 'demo@example.com'
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {
+    // Use fallback authentication (demo cookies)
+    const cookieStore = await cookies()
+    const isAuthenticated = cookieStore.get('demo-auth')?.value === 'true'
+    const userCookie = cookieStore.get('demo-user')?.value
+    
+    if (!isAuthenticated) {
+      redirect('/login')
+    }
 
-  if (!user) {
-    redirect('/login')
+    if (userCookie) {
+      try {
+        const userData = JSON.parse(userCookie)
+        userEmail = userData.email || 'demo@example.com'
+      } catch (error) {
+        console.error('Error parsing user cookie:', error)
+      }
+    }
+  } else {
+    // Use Supabase authentication
+    try {
+      const supabase = await createClient()
+      const {
+        data: { user: supabaseUser },
+      } = await supabase.auth.getUser()
+
+      if (!supabaseUser) {
+        redirect('/login')
+      }
+
+      user = supabaseUser
+      userEmail = user.email || 'user@example.com'
+    } catch (error) {
+      console.error('Supabase auth error:', error)
+      redirect('/login')
+    }
   }
 
   return (
@@ -19,7 +55,7 @@ export default async function DashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-300 mt-2">Welcome back, {user.email}!</p>
+          <p className="text-gray-300 mt-2">Welcome back, {userEmail}!</p>
         </div>
 
         {/* Stats Grid */}
