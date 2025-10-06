@@ -1,6 +1,6 @@
 'use client'
 
-import { login } from './actions'
+import { loginSimple } from './actions-simple'
 import Link from 'next/link'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -86,7 +86,7 @@ export default function LoginForm() {
                   Forgot your password?
                 </Link>
               </div>
-              <Button formAction={login} type="submit" className="w-full">
+              <Button formAction={loginSimple} type="submit" className="w-full">
                 Sign in
               </Button>
             </CardContent>

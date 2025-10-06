@@ -1,6 +1,6 @@
 'use client'
 
-import { signup } from '../login/actions'
+import { signupSimple } from '../login/actions-simple'
 import Link from 'next/link'
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -95,7 +95,7 @@ export default function SignupPage() {
                   </button>
                 </div>
               </div>
-              <Button formAction={signup} type="submit" className="w-full">
+              <Button formAction={signupSimple} type="submit" className="w-full">
                 Create account
               </Button>
               <p className="text-center text-sm text-gray-300">
