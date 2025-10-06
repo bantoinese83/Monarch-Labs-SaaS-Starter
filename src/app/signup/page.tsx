@@ -29,7 +29,7 @@ export default function SignupPage() {
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-6" action={signup} method="post">
+        <form className="mt-8 space-y-6">
           <Card>
             <CardContent className="space-y-4">
               <div className="space-y-2">
