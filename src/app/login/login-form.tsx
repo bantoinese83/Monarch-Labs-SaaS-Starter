@@ -29,7 +29,7 @@ export default function LoginForm() {
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-6" method="post">
+        <form className="mt-8 space-y-6" action={login} method="post">
           <Card>
             <CardContent className="space-y-4">
               <div className="space-y-2">
