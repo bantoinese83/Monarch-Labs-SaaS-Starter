@@ -43,8 +43,10 @@ function SignUpForm() {
       console.log('Registration successful, checking cookies...')
       console.log('Document cookies:', document.cookie)
       
+      // Use client-side redirect to auth-callback page
+      // This ensures cookies are processed before redirecting to dashboard
       const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
-      window.location.href = callbackUrl
+      window.location.href = `/auth-callback?callbackUrl=${encodeURIComponent(callbackUrl)}`
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {

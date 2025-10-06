@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Public routes that don't require authentication
-  const publicRoutes = ['/', '/pricing', '/login', '/signup', '/forgot-password', '/reset-password', '/privacy', '/terms']
+  const publicRoutes = ['/', '/pricing', '/login', '/signup', '/forgot-password', '/reset-password', '/privacy', '/terms', '/auth-callback']
   const isPublicRoute = publicRoutes.includes(pathname)
 
   // API routes that don't require authentication

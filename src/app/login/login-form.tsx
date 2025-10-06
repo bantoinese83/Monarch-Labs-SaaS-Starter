@@ -82,8 +82,10 @@ export default function LoginForm() {
       document.cookie = 'manual-test=test-value; path=/; max-age=3600'
       console.log('Manual test cookie set, all cookies:', document.cookie)
       
+      // Use client-side redirect to auth-callback page
+      // This ensures cookies are processed before redirecting to dashboard
       const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
-      window.location.href = callbackUrl
+      window.location.href = `/auth-callback?callbackUrl=${encodeURIComponent(callbackUrl)}`
     } catch (err) {
       setServerError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
