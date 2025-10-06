@@ -86,7 +86,7 @@ export default function LoginForm() {
                   Forgot your password?
                 </Link>
               </div>
-              <Button formAction={login} className="w-full">
+              <Button formAction={login} type="submit" className="w-full">
                 Sign in
               </Button>
             </CardContent>

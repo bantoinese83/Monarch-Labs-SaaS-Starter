@@ -95,7 +95,7 @@ export default function SignupPage() {
                   </button>
                 </div>
               </div>
-              <Button formAction={signup} className="w-full">
+              <Button formAction={signup} type="submit" className="w-full">
                 Create account
               </Button>
               <p className="text-center text-sm text-gray-300">
